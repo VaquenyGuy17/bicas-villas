@@ -1,0 +1,165 @@
+:root {
+  --verde: #2d5a27;
+  --verde-claro: #4a7c3f;
+  --verde-menta: #e8f0e5;
+  --areia: #f5f0e8;
+  --castanho: #7a5c3a;
+  --texto: #2a2a2a;
+  --cinza: #6b7280;
+  --branco: #ffffff;
+  --sombra: 0 2px 12px rgba(45,90,39,0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--areia);
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--verde);
+  color: white;
+  padding: 28px 20px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 18px;
+  background: var(--areia);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+.header-zona {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.header-sub {
+  font-size: 13px;
+  opacity: 0.75;
+  margin-top: 6px;
+}
+
+/* SEARCH */
+.search-wrap { padding: 18px 16px 8px; }
+.search-box {
+  width: 100%;
+  padding: 12px 16px 12px 40px;
+  border: 1.5px solid #c8dbc4;
+  border-radius: 12px;
+  background: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--texto);
+  outline: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234a7c3f' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 14px center;
+  transition: border-color 0.2s;
+}
+.search-box:focus { border-color: var(--verde-claro); }
+
+/* AVISO GERAL */
+.aviso-geral {
+  margin: 8px 16px 4px;
+  background: var(--verde);
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: white;
+}
+.aviso-geral-titulo {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 8px;
+}
+.aviso-geral-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 6px;
+  opacity: 0.95;
+}
+.aviso-geral-item:last-child { margin-bottom: 0; }
+.aviso-geral-item .icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+/* LISTA DE VILLAS */
+.villas-lista { padding: 10px 16px 32px; display: flex; flex-direction: column; gap: 12px; }
+
+/* CARD VILLA */
+.villa-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+  overflow: hidden;
+  border: 1px solid #e0ead9;
+}
+.villa-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  background: white;
+  transition: background 0.15s;
+}
+.villa-header:active { background: var(--verde-menta); }
+.villa-header-left { display: flex; align-items: center; gap: 12px; }
+.villa-numero {
+  background: var(--verde); color: white; font-family: 'Playfair Display', serif;
+  font-size: 17px; font-weight: 600; width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.villa-nome { font-weight: 500; font-size: 15px; color: var(--texto); }
+.villa-tags { display: flex; gap: 5px; margin-top: 4px; flex-wrap: wrap; }
+.tag { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 20px; letter-spacing: 0.3px; }
+.tag-limpeza { background: #dbeafe; color: #1d4ed8; }
+.tag-jardim  { background: #dcfce7; color: #166534; }
+.tag-manutencao { background: #fef3c7; color: #92400e; }
+.tag-piscina { background: #e0f2fe; color: #0369a1; }
+
+.villa-chevron { color: var(--verde-claro); font-size: 18px; transition: transform 0.25s; flex-shrink: 0; }
+.villa-chevron.open { transform: rotate(180deg); }
+
+/* CONTEÚDO */
+.villa-body { border-top: 1px solid #e8f0e5; padding: 14px 16px 16px; background: #fafcf9; }
+.secao { margin-bottom: 14px; }
+.secao:last-child { margin-bottom: 0; }
+.secao-titulo { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--cinza); margin-bottom: 8px; }
+.tarefa-item {
+  display: flex; align-items: flex-start; gap: 10px; padding: 9px 12px; background: white;
+  border-radius: 10px; margin-bottom: 6px; border: 1px solid #e8f0e5; font-size: 13.5px; line-height: 1.5; color: var(--texto);
+}
+.tarefa-item:last-child { margin-bottom: 0; }
+.tarefa-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+/* NOTA */
+.nota {
+  background: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px 12px;
+  border-radius: 0 8px 8px 0; font-size: 12.5px; color: #78350f; margin-top: 10px; line-height: 1.5;
+}
+
+/* CONTADOR */
+.contador { text-align: center; font-size: 12px; color: var(--cinza); padding: 4px 0 2px; }
