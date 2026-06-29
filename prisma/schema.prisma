@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Villa {
+  id      String   @id @default(cuid())
+  numero  String   @unique
+  nota    String?
+  tags    Tag[]
+  tarefas Tarefa[]
+}
+
+model Tag {
+  id      String @id @default(cuid())
+  nome    String
+  classe  String
+  villaId String
+  villa   Villa  @relation(fields: [villaId], references: [id], onDelete: Cascade)
+}
+
+model Tarefa {
+  id      String @id @default(cuid())
+  icon    String
+  desc    String
+  villaId String
+  villa   Villa  @relation(fields: [villaId], references: [id], onDelete: Cascade)
+}
+
+model ActionLog {
+  id          String   @id @default(cuid())
+  action      String
+  villaNumero String
+  workerName  String
+  workerId    String
+  createdAt   DateTime @default(now())
+}
