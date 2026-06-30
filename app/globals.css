@@ -279,6 +279,6 @@ p { color: var(--text-muted); line-height: 1.6; }
   .villa-actions { flex: 1 1 100%; justify-content: flex-end; }
   .btn { white-space: nowrap; flex-shrink: 0; }
   .aviso-grid { grid-template-columns: 1fr; }
-  .admin-bar { flex-wrap: wrap; left: 12px; right: 12px; bottom: 12px; padding: 12px; }
+  .admin-bar { flex-wrap: wrap; left: 12px; right: 12px; bottom: 12px; padding: 12px; transform: none; justify-content: center; width: auto; }
   .header-hero h1 { font-size: 36px; }
 }
