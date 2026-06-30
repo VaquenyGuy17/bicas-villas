@@ -272,3 +272,13 @@ p { color: var(--text-muted); line-height: 1.6; }
 @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(59,155,79,0.5)); } 100% { transform: scale(1); } }
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .villa-header { padding: 16px; flex-wrap: wrap; gap: 16px; }
+  .villa-actions { flex: 1 1 100%; justify-content: flex-end; }
+  .btn { white-space: nowrap; flex-shrink: 0; }
+  .aviso-grid { grid-template-columns: 1fr; }
+  .admin-bar { flex-wrap: wrap; left: 12px; right: 12px; bottom: 12px; padding: 12px; }
+  .header-hero h1 { font-size: 36px; }
+}
