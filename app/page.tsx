@@ -81,7 +81,8 @@ export default function Home() {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!loginName.trim() || !loginId.trim()) return alert("Preencha o Nome e o ID.");
     const info = { name: loginName.trim(), id: loginId.trim() };
     localStorage.setItem("workerInfo", JSON.stringify(info));
@@ -151,129 +152,144 @@ export default function Home() {
 
   if (!workerInfo) {
     return (
-      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '20px'}}>
-        <div style={{background: 'white', padding: '40px', borderRadius: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px'}}>
-          <h2 style={{color: '#14341b', marginBottom: '10px', textAlign: 'center'}}>Bicas Villas</h2>
-          <p style={{color: '#5e7364', marginBottom: '30px', textAlign: 'center', fontSize: '14px'}}>Identifique-se para aceder ao sistema</p>
+      <div className="login-overlay">
+        <div className="login-card">
+          <div className="login-icon">🌴</div>
+          <h2 style={{fontSize: '32px', marginBottom: '8px', color: 'var(--green-900)'}}>Bicas Villas</h2>
+          <p style={{marginBottom: '32px'}}>Painel da Equipa de Manutenção</p>
           
-          <div style={{marginBottom: '15px'}}>
-            <label style={{display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '6px', color: '#5e7364'}}>O seu Nome</label>
-            <input type="text" value={loginName} onChange={e => setLoginName(e.target.value)} style={{width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #dff4e4', outline: 'none'}} placeholder="Ex: Vasco" />
-          </div>
+          <form onSubmit={handleLogin}>
+            <div className="input-group">
+              <label className="input-label">O seu Nome</label>
+              <input type="text" className="input-field" value={loginName} onChange={e => setLoginName(e.target.value)} placeholder="Ex: Vasco" autoFocus />
+            </div>
 
-          <div style={{marginBottom: '25px'}}>
-            <label style={{display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '6px', color: '#5e7364'}}>Número de ID</label>
-            <input type="text" value={loginId} onChange={e => setLoginId(e.target.value)} style={{width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #dff4e4', outline: 'none'}} placeholder="Ex: 12345" />
-          </div>
+            <div className="input-group">
+              <label className="input-label">Número de ID</label>
+              <input type="text" className="input-field" value={loginId} onChange={e => setLoginId(e.target.value)} placeholder="Ex: 12345" />
+            </div>
 
-          <button onClick={handleLogin} style={{width: '100%', padding: '14px', borderRadius: '12px', border: 'none', background: '#3b9b4f', color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: '16px'}}>Entrar</button>
+            <button type="submit" className="btn btn-primary" style={{width: '100%', justifyContent: 'center', marginTop: '16px'}}>
+              Entrar na Plataforma
+            </button>
+          </form>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="container">
-      <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '15px', paddingBottom: '10px', borderBottom: '1px solid rgba(0,0,0,0.05)', marginBottom: '20px'}}>
-        <div style={{fontSize: '14px', color: '#5e7364'}}>👤 <strong>{workerInfo.name}</strong> (ID: {workerInfo.id})</div>
-        <button onClick={handleLogout} style={{background: 'transparent', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '13px', fontWeight: 600}}>Sair</button>
-      </div>
-
-      <div className="header">
-        <div className="header-zona">Resort — Zona</div>
-        <h1>Bicas Villas</h1>
-        <div className="header-sub">Guia de tarefas para a equipa de manutenção</div>
-        <button 
-          onClick={toggleAdmin}
-          style={{marginTop: '15px', background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: '#1a4323', padding: '6px 12px', borderRadius: '10px', fontSize: '13px', cursor: 'pointer', opacity: 0.5}}
-        >
-          {isAdmin ? 'Sair do Modo Admin' : 'Modo Admin'}
-        </button>
-      </div>
-
-      <div className="search-wrap">
-        <input
-          className="search-box"
-          type="search"
-          placeholder="Pesquisar villa (ex: 102)..."
-          value={pesquisa}
-          onChange={handleSearch}
-        />
-      </div>
-
-      <div className="aviso-geral">
-        <div className="aviso-geral-titulo">
-          <span style={{fontSize: "20px"}}>✨</span> Tarefas Essenciais - Todas as Villas
-        </div>
-        <div className="aviso-geral-item"><span className="icon">🧹</span><span>Varrer e limpar toda a área exterior da villa</span></div>
-        <div className="aviso-geral-item"><span className="icon">🌿</span><span>Arrancar ervas que crescem em caminhos, entre tábuas, decks e vasos</span></div>
-        <div className="aviso-geral-item"><span className="icon">🪵</span><span>Canteiros da frente têm casca de pinheiro — a casca fica no canteiro, não retirar</span></div>
-        <div className="aviso-geral-item"><span className="icon">🪴</span><span>Limpar sempre a zona do deck na parte de trás e o caminho para a piscina</span></div>
-      </div>
-
-      <div className="contador" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{display: 'flex', gap: '10px'}}>
-          {isAdmin && (
-             <button onClick={() => setIsAdding(true)} style={{background: '#3b9b4f', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '12px', cursor: 'pointer', fontWeight: 600}}>
-               + Adicionar Villa
-             </button>
-          )}
-          {isAdmin && (
-             <button onClick={() => {
-               if (!showLogs) fetchLogs();
-               setShowLogs(!showLogs);
-             }} style={{background: '#e5e7eb', color: '#4b5563', border: 'none', padding: '8px 16px', borderRadius: '12px', cursor: 'pointer', fontWeight: 600}}>
-               {showLogs ? 'Esconder Histórico' : 'Histórico de Atividades'}
-             </button>
-          )}
-        </div>
-        <div>
-          {loading ? 'A carregar...' : (pesquisa.trim() === '' ? `A mostrar ${villasData.length} villas` : `${villasFiltradas.length} villa(s) encontrada(s)`)}
+    <>
+      <div className="top-bar">
+        <div className="top-bar-inner">
+          <div className="user-info">
+            <div className="user-avatar">{workerInfo.name.charAt(0).toUpperCase()}</div>
+            <span>{workerInfo.name} <span style={{opacity: 0.6}}>({workerInfo.id})</span></span>
+          </div>
+          <button onClick={handleLogout} className="btn btn-ghost" style={{padding: '6px 12px'}}>Sair</button>
         </div>
       </div>
-      
-      {isAdmin && showLogs && (
-        <div style={{background: 'white', padding: '20px', borderRadius: '16px', marginBottom: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)'}}>
-          <h3 style={{marginBottom: '15px', color: '#1a4323'}}>Últimas Modificações</h3>
-          <div style={{maxHeight: '300px', overflowY: 'auto'}}>
-            {logs.length === 0 ? <p style={{color: '#6b7280', fontSize: '14px'}}>Nenhuma atividade registada.</p> : null}
-            {logs.map(log => (
-              <div key={log.id} style={{padding: '10px 0', borderBottom: '1px solid #f3f4f6', fontSize: '14px'}}>
-                <strong>{log.workerName}</strong> (ID: {log.workerId}){' '}
-                {log.action === 'CREATE' ? <span style={{color: '#059669'}}>criou</span> : null}
-                {log.action === 'UPDATE' ? <span style={{color: '#d97706'}}>editou</span> : null}
-                {log.action === 'DELETE' ? <span style={{color: '#dc2626'}}>removeu</span> : null}
-                {' '}a Villa <strong>{log.villaNumero}</strong> em {new Date(log.createdAt).toLocaleString('pt-PT')}
-              </div>
-            ))}
+
+      <div className="container">
+        <div className="header-hero">
+          <div className="badge">⭐ Resort Area</div>
+          <h1>Bicas Villas</h1>
+          <p>Guia de tarefas e manutenções prioritárias.</p>
+        </div>
+
+        <div className="search-container">
+          <div className="search-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </div>
+          <input
+            className="search-input"
+            type="search"
+            placeholder="Pesquisar villa (ex: 102)..."
+            value={pesquisa}
+            onChange={handleSearch}
+          />
+        </div>
+
+        <div className="aviso-widget">
+          <div className="aviso-header">
+            <div className="aviso-header-icon">✨</div>
+            <h3>Tarefas Essenciais - Todas as Villas</h3>
+          </div>
+          <div className="aviso-grid">
+            <div className="aviso-item">
+              <div className="aviso-item-icon">🧹</div>
+              <div className="aviso-item-text">Varrer e limpar toda a área exterior da villa</div>
+            </div>
+            <div className="aviso-item">
+              <div className="aviso-item-icon">🌿</div>
+              <div className="aviso-item-text">Arrancar ervas que crescem em caminhos, decks e vasos</div>
+            </div>
+            <div className="aviso-item">
+              <div className="aviso-item-icon">🪵</div>
+              <div className="aviso-item-text">Canteiros têm casca de pinheiro — a casca fica, não retirar</div>
+            </div>
+            <div className="aviso-item">
+              <div className="aviso-item-icon">🪴</div>
+              <div className="aviso-item-text">Limpar sempre a zona do deck traseiro e acesso à piscina</div>
+            </div>
           </div>
         </div>
-      )}
 
-      {(isAdding || editingVilla) && (
-        <VillaEditor 
-          villa={editingVilla || { numero: "", tags: [], tarefas: [] }} 
-          onSave={saveVilla} 
-          onCancel={() => { setEditingVilla(null); setIsAdding(false); }} 
-        />
-      )}
-
-      {!isAdding && !editingVilla && (
-        <div className="villas-lista">
-          {villasFiltradas.map((villa) => (
-            <div className="villa-card" key={villa.numero}>
-              <div className="villa-header" onClick={() => toggleVilla(villa.numero)}>
-                <div className="villa-header-left">
-                  <div className="villa-numero">{villa.numero}</div>
-                  <div>
-                    <div className="villa-nome">Villa {villa.numero}</div>
+        <div className="list-header">
+          <div className="list-count">
+            {loading ? 'A carregar base de dados...' : (pesquisa.trim() === '' ? `A mostrar todas as ${villasData.length} villas` : `${villasFiltradas.length} villa(s) encontrada(s)`)}
+          </div>
+          <button onClick={toggleAdmin} className="btn btn-secondary" style={{padding: '8px 16px', fontSize: '13px'}}>
+            {isAdmin ? 'Sair do Admin' : '🔒 Acesso Admin'}
+          </button>
+        </div>
+        
+        {isAdmin && showLogs && (
+          <div className="logs-widget">
+            <div className="logs-header">
+              <h3><span>📋</span> Histórico de Atividades</h3>
+              <button onClick={() => setShowLogs(false)} className="btn btn-ghost btn-icon">✕</button>
+            </div>
+            <div className="log-list">
+              {logs.length === 0 ? <p style={{color: 'var(--text-muted)'}}>Nenhuma atividade registada.</p> : null}
+              {logs.map(log => (
+                <div key={log.id} className="log-item">
+                  <div className="log-meta">
+                    <span><strong>{log.workerName}</strong> (ID: {log.workerId})</span>
+                    <span>{new Date(log.createdAt).toLocaleString('pt-PT')}</span>
+                  </div>
+                  <div className="log-content">
+                    Operador <span className={`log-action ${log.action}`}>
+                      {log.action === 'CREATE' && 'CRIOU'}
+                      {log.action === 'UPDATE' && 'EDITOU'}
+                      {log.action === 'DELETE' && 'REMOVEU'}
+                    </span>
+                    a Villa <strong>{log.villaNumero}</strong>
                   </div>
                 </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="villas-list">
+          {villasFiltradas.map((villa) => (
+            <div className="villa-card" key={villa.id || villa.numero}>
+              <div className="villa-header" onClick={() => toggleVilla(villa.numero)}>
+                <div className="villa-header-main">
+                  <div className="villa-number">{villa.numero}</div>
+                  <div>
+                    <div className="villa-title">Villa {villa.numero}</div>
+                    <div className="villa-subtitle">
+                      {villa.tarefas.length} tarefa{villa.tarefas.length !== 1 && 's'} específica{villa.tarefas.length !== 1 && 's'}
+                    </div>
+                  </div>
+                </div>
+                <div className="villa-actions">
                   {isAdmin && (
                     <>
-                      <button onClick={(e) => { e.stopPropagation(); setEditingVilla(villa); }} style={{background: '#fef3c7', color: '#d97706', border: 'none', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: 600}}>Editar</button>
-                      <button onClick={(e) => deleteVilla(villa.id!, e)} style={{background: '#fee2e2', color: '#dc2626', border: 'none', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: 600}}>Remover</button>
+                      <button onClick={(e) => { e.stopPropagation(); setEditingVilla(villa); }} className="btn btn-secondary" style={{padding: '8px 16px', fontSize: '13px'}}>Editar</button>
+                      <button onClick={(e) => deleteVilla(villa.id!, e)} className="btn btn-danger" style={{padding: '8px 16px', fontSize: '13px'}}>Remover</button>
                     </>
                   )}
                   <div className={`villa-chevron ${abertas[villa.numero] ? 'open' : ''}`}>
@@ -284,27 +300,67 @@ export default function Home() {
 
               <div className={`villa-body-wrapper ${abertas[villa.numero] ? 'open' : ''}`}>
                 <div className="villa-body-inner">
-                  <div className="villa-body">
-                    <div className="secao">
-                      <div className="secao-titulo">Tarefas específicas</div>
-                      {villa.tarefas.length > 0 ? villa.tarefas.map((tarefa, idx) => (
-                        <div className="tarefa-item" key={idx}>
-                          <span className="tarefa-icon">{tarefa.icon}</span>
-                          <span>{tarefa.desc}</span>
-                        </div>
-                      )) : (
-                        <div style={{fontSize: '14px', color: '#6b7280', padding: '10px'}}>Nenhuma tarefa específica.</div>
-                      )}
-                    </div>
-                    {villa.nota && <div className="nota">{villa.nota}</div>}
+                  <div className="villa-body-content">
+                    <div className="villa-divider"></div>
+                    <div className="section-title">Tarefas específicas desta villa</div>
+                    
+                    {villa.tarefas.length > 0 ? (
+                      <div className="task-list">
+                        {villa.tarefas.map((tarefa, idx) => (
+                          <div className="task-item" key={idx}>
+                            <div className="task-icon">{tarefa.icon}</div>
+                            <div className="task-text">{tarefa.desc}</div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p>Nenhuma tarefa específica configurada.</p>
+                    )}
+                    
+                    {villa.nota && (
+                      <div className="villa-note">
+                        <div className="note-icon">💡</div>
+                        <div className="note-text">{villa.nota}</div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           ))}
+          
+          {!loading && villasFiltradas.length === 0 && (
+            <div className="empty-state">
+              <div className="empty-icon">🔍</div>
+              <h3>Nenhuma villa encontrada</h3>
+              <p>Não existem villas correspondentes à sua pesquisa.</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {isAdmin && (
+        <div className="admin-bar">
+          <span className="admin-bar-title">Modo Admin Ativo</span>
+          <button onClick={() => setIsAdding(true)} className="admin-btn primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            Adicionar Villa
+          </button>
+          <button onClick={() => { if (!showLogs) fetchLogs(); setShowLogs(!showLogs); }} className="admin-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Logs
+          </button>
         </div>
       )}
-    </div>
+
+      {(isAdding || editingVilla) && (
+        <VillaEditor 
+          villa={editingVilla || { numero: "", tags: [], tarefas: [] }} 
+          onSave={saveVilla} 
+          onCancel={() => { setEditingVilla(null); setIsAdding(false); }} 
+        />
+      )}
+    </>
   );
 }
 
@@ -317,42 +373,59 @@ function VillaEditor({ villa, onSave, onCancel }: { villa: Villa, onSave: (v: Vi
   };
 
   return (
-    <div style={{background: 'rgba(255,255,255,0.9)', padding: '24px', borderRadius: '24px', boxShadow: '0 10px 40px -10px rgba(45,90,39,0.15)', marginBottom: '20px'}}>
-      <h2 style={{color: '#14341b', marginBottom: '20px'}}>{villa.id ? 'Editar Villa' : 'Nova Villa'}</h2>
-      
-      <div style={{marginBottom: '15px'}}>
-        <label style={{display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '6px', color: '#5e7364'}}>Número da Villa</label>
-        <input type="text" value={formData.numero} onChange={e => setFormData({...formData, numero: e.target.value})} style={{width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #dff4e4', outline: 'none'}} />
-      </div>
-
-      <div style={{marginBottom: '15px'}}>
-        <label style={{display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '6px', color: '#5e7364'}}>Nota / Aviso Específico</label>
-        <input type="text" value={formData.nota || ''} onChange={e => setFormData({...formData, nota: e.target.value})} style={{width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #dff4e4', outline: 'none'}} placeholder="Opcional..." />
-      </div>
-
-      <div style={{marginBottom: '20px'}}>
-        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
-          <label style={{fontSize: '14px', fontWeight: 600, color: '#5e7364'}}>Tarefas</label>
-          <button onClick={() => setFormData({...formData, tarefas: [...formData.tarefas, {icon: '✅', desc: ''}]})} style={{background: '#dff4e4', color: '#2d7a3e', border: 'none', padding: '4px 10px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px'}}>+ Adicionar Tarefa</button>
+    <div className="editor-overlay">
+      <div className="editor-card">
+        <div className="editor-header">
+          <h2 className="editor-title">{villa.id ? 'Editar Villa' : 'Nova Villa'}</h2>
+          <button onClick={onCancel} className="btn btn-ghost btn-icon" style={{background: 'var(--green-50)', color: 'var(--green-900)'}}>✕</button>
         </div>
-        {formData.tarefas.map((t, i) => (
-          <div key={i} style={{display: 'flex', gap: '10px', marginBottom: '10px'}}>
-            <input type="text" value={t.icon} onChange={e => {
-              const newT = [...formData.tarefas]; newT[i].icon = e.target.value; setFormData({...formData, tarefas: newT});
-            }} style={{width: '60px', padding: '10px', borderRadius: '10px', border: '1px solid #dff4e4', outline: 'none'}} placeholder="Icon" />
-            <input type="text" value={t.desc} onChange={e => {
-              const newT = [...formData.tarefas]; newT[i].desc = e.target.value; setFormData({...formData, tarefas: newT});
-            }} style={{flex: 1, padding: '10px', borderRadius: '10px', border: '1px solid #dff4e4', outline: 'none'}} placeholder="Descrição" />
-            <button onClick={() => {
-              const newT = [...formData.tarefas]; newT.splice(i, 1); setFormData({...formData, tarefas: newT});
-            }} style={{background: '#fee2e2', color: '#dc2626', border: 'none', padding: '10px', borderRadius: '10px', cursor: 'pointer'}}>X</button>
-          </div>
-        ))}
-      </div>
+        
+        <div className="input-group">
+          <label className="input-label">Número da Villa</label>
+          <input type="text" className="input-field" value={formData.numero} onChange={e => setFormData({...formData, numero: e.target.value})} placeholder="Ex: 105" />
+        </div>
 
-      <div style={{display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px'}}>
-        <button onClick={onCancel} style={{padding: '12px 20px', borderRadius: '12px', border: 'none', background: '#f5f0e8', color: '#5e7364', cursor: 'pointer', fontWeight: 600}}>Cancelar</button>
-        <button onClick={handleSave} style={{padding: '12px 20px', borderRadius: '12px', border: 'none', background: '#3b9b4f', color: 'white', cursor: 'pointer', fontWeight: 600}}>Guardar Villa</button>
+        <div className="input-group">
+          <label className="input-label">Nota / Aviso Especial (Opcional)</label>
+          <input type="text" className="input-field" value={formData.nota || ''} onChange={e => setFormData({...formData, nota: e.target.value})} placeholder="Mensagem de aviso para destacar..." />
+        </div>
+
+        <div className="input-group" style={{marginTop: '30px'}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+            <label className="input-label" style={{margin: 0}}>Tarefas</label>
+            <button onClick={() => setFormData({...formData, tarefas: [...formData.tarefas, {icon: '✅', desc: ''}]})} className="btn btn-secondary" style={{padding: '6px 14px', fontSize: '13px'}}>
+              + Nova Tarefa
+            </button>
+          </div>
+          
+          <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+            {formData.tarefas.map((t, i) => (
+              <div key={i} style={{display: 'flex', gap: '12px'}}>
+                <input type="text" className="input-field" style={{width: '70px', textAlign: 'center'}} value={t.icon} onChange={e => {
+                  const newT = [...formData.tarefas]; newT[i].icon = e.target.value; setFormData({...formData, tarefas: newT});
+                }} placeholder="Icon" />
+                <input type="text" className="input-field" value={t.desc} onChange={e => {
+                  const newT = [...formData.tarefas]; newT[i].desc = e.target.value; setFormData({...formData, tarefas: newT});
+                }} placeholder="Descrição da tarefa" />
+                <button onClick={() => {
+                  const newT = [...formData.tarefas]; newT.splice(i, 1); setFormData({...formData, tarefas: newT});
+                }} className="btn btn-danger btn-icon" style={{width: '54px', height: 'auto', borderRadius: '16px'}}>✕</button>
+              </div>
+            ))}
+            {formData.tarefas.length === 0 && (
+              <div style={{padding: '20px', textAlign: 'center', background: 'var(--green-50)', borderRadius: '16px', color: 'var(--text-muted)', fontSize: '14px'}}>
+                Nenhuma tarefa específica adicionada.
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="editor-actions">
+          <button onClick={onCancel} className="btn btn-ghost">Cancelar</button>
+          <button onClick={handleSave} className="btn btn-primary">
+            {villa.id ? 'Guardar Alterações' : 'Criar Villa'}
+          </button>
+        </div>
       </div>
     </div>
   );
