@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --green-900: #0a1f10;
-  --green-800: #14341b;
-  --green-700: #1a4323;
-  --green-600: #225a2e;
-  --green-500: #2d7a3e;
-  --green-400: #3b9b4f;
-  --green-300: #5cb871;
-  --green-200: #8ad29a;
-  --green-100: #bde7c6;
-  --green-50:  #eaf6ee;
+  --green-900: #0a1307;
+  --green-800: #152210;
+  --green-700: #1f3617;
+  --green-600: #2c4921;
+  --green-500: #3a5c2a;
+  --green-400: #497136;
+  --green-300: #5b8a45;
+  --green-200: #7eb366;
+  --green-100: #b9d8a9;
+  --green-50:  #e7f2e1;
   
-  --bg-color: #f4fbf6;
+  --bg-color: #f6faf3;
   --text-main: #0a1f10;
   --text-muted: #5e7364;
   

@@ -154,7 +154,9 @@ export default function Home() {
     return (
       <div className="login-overlay">
         <div className="login-card">
-          <div className="login-icon">🌴</div>
+          <div className="login-icon" style={{display: 'flex', justifyContent: 'center'}}>
+            <img src="/images/lagofilia_green.png" alt="Lagofilia Logo" style={{ height: '80px', width: 'auto' }} />
+          </div>
           <h2 style={{fontSize: '32px', marginBottom: '8px', color: 'var(--green-900)'}}>Bicas Villas</h2>
           <p style={{marginBottom: '32px'}}>Painel da Equipa de Manutenção</p>
           
